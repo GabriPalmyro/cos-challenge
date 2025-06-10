@@ -12,7 +12,6 @@ class CarLocalDataSourceImpl implements CarDataSource {
     } catch (e) {
       rethrow;
     }
-
   }
 
   @override
@@ -21,6 +20,16 @@ class CarLocalDataSourceImpl implements CarDataSource {
     try {
       await carBox.clear();
       await carBox.addAll(cars.map((car) => car.toBox()));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteCacheOnCache() {
+    final carBox = Boxes.carBox;
+    try {
+      return carBox.clear();
     } catch (e) {
       rethrow;
     }

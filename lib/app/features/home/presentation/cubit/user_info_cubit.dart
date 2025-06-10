@@ -14,11 +14,20 @@ class UserInfoCubit extends Cubit<UserInfoState> {
 
   Future<void> getUserInfo() async {
     try {
-      emit(const UserInfoInitial());
       final user = await _getUserUseCase.call();
       emit(UserInfoLoaded(user));
     } catch (e) {
       emit(UserInfoError(UserNotFoundError()));
     }
+  }
+
+  Future<void> logout() async {
+    // try {
+    //   emit(const UserInfoInitial());
+    //   await _getUserUseCase.logout();
+    //   emit(UserInfoLoggedOut());
+    // } catch (e) {
+    //   emit(UserInfoError(Failure(message: 'Logout failed')));
+    // }
   }
 }

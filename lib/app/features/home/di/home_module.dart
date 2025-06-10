@@ -3,6 +3,7 @@ import 'package:cos_challenge/app/features/home/data/data_source/car_local_data_
 import 'package:cos_challenge/app/features/home/data/repository/car_search_repository_impl.dart';
 import 'package:cos_challenge/app/features/home/domain/boundary/car_data_source.dart';
 import 'package:cos_challenge/app/features/home/domain/boundary/car_search_repository.dart';
+import 'package:cos_challenge/app/features/home/domain/use_case/get_cached_cars.dart';
 import 'package:cos_challenge/app/features/home/domain/use_case/get_car_by_vin.dart';
 import 'package:cos_challenge/app/features/home/domain/use_case/get_user.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/car_search_cubit.dart';
@@ -40,10 +41,19 @@ abstract class HomeModule {
         authDataSource,
       );
 
+  GetCachedCarsUseCase getCachedCarsUseCase(
+    CarDataSource carDataSource,
+  ) =>
+      GetCachedCarsUseCaseImpl(
+        carDataSource,
+      );
+
   CarSearchCubit carSearchCubit(
     GetCarByVinUseCase getCarByVinUseCase,
+    GetCachedCarsUseCase getCachedCarsUseCase,
   ) =>
       CarSearchCubit(
         getCarByVinUseCase,
+        getCachedCarsUseCase,
       );
 }

@@ -22,6 +22,13 @@ final class UserInfoLoaded extends UserInfoState {
   List<Object> get props => [user];
 }
 
+final class UserLogout extends UserInfoState {
+  const UserLogout();
+
+  @override
+  List<Object> get props => [];
+}
+
 final class UserInfoError extends UserInfoState {
   const UserInfoError(this.failure);
   final Failure failure;

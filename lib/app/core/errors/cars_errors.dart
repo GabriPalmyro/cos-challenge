@@ -11,6 +11,13 @@ class CarsSearchTimeoutException extends CarsErrors {
   String toString() => 'CarsSearchTimeoutException: $message';
 }
 
+class CarMaintenceDelayException extends CarsErrors {
+  CarMaintenceDelayException({super.message = 'Maintenance delay occurred.'});
+
+  @override
+  String toString() => 'CarMaintenceDelayException: $message';
+}
+
 class CarsClientException extends CarsErrors {
   CarsClientException({super.message = 'Client error occurred.'});
 

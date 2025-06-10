@@ -26,8 +26,13 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
         return CarSearchSuccess(CarInfoModel.fromJson(json));
       } else if (response.statusCode == HttpStatus.multipleChoices) {
         final jsonList = jsonDecode(response.body) as List;
-        final cars = jsonList.map((e) => CarModel.fromJson(e)).toList();
+        final cars = jsonList.map((e) => CarModel.fromJson(e)).toList()
+          ..sort(
+            (a, b) => a.similarity.compareTo(b.similarity),
+          );
         return CarMultipleChoices(cars);
+      } else if (response.statusCode == HttpStatus.badRequest) {
+        throw CarMaintenceDelayException();
       } else {
         final error = jsonDecode(response.body);
         return CarSearchFailure(
@@ -40,8 +45,8 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
       throw CarsSearchTimeoutException();
     } on ClientException catch (_) {
       throw CarsClientException();
-    } catch (e) {
-      throw CarsNotFoundError();
+    } on CarsErrors catch (_) {
+      rethrow;
     }
   }
 }

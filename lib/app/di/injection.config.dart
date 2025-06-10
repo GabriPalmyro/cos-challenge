@@ -16,6 +16,8 @@ import 'package:cos_challenge/app/features/home/domain/boundary/car_data_source.
     as _i958;
 import 'package:cos_challenge/app/features/home/domain/boundary/car_search_repository.dart'
     as _i792;
+import 'package:cos_challenge/app/features/home/domain/use_case/get_cached_cars.dart'
+    as _i209;
 import 'package:cos_challenge/app/features/home/domain/use_case/get_car_by_vin.dart'
     as _i450;
 import 'package:cos_challenge/app/features/home/domain/use_case/get_user.dart'
@@ -70,8 +72,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i290.SplashCubit>(
         () => splashModule.splashCubit(gh<_i309.VerifyUserUseCase>()));
-    gh.factory<_i833.CarSearchCubit>(
-        () => homeModule.carSearchCubit(gh<_i450.GetCarByVinUseCase>()));
+    gh.factory<_i209.GetCachedCarsUseCase>(
+        () => homeModule.getCachedCarsUseCase(gh<_i958.CarDataSource>()));
+    gh.factory<_i833.CarSearchCubit>(() => homeModule.carSearchCubit(
+          gh<_i450.GetCarByVinUseCase>(),
+          gh<_i209.GetCachedCarsUseCase>(),
+        ));
     gh.factory<_i196.UserInfoCubit>(
         () => homeModule.userInfoCubit(gh<_i214.GetUserUseCase>()));
     gh.factory<_i303.LoginCubit>(
