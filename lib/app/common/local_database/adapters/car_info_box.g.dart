@@ -17,11 +17,11 @@ class CarInfoBoxAdapter extends TypeAdapter<CarInfoBox> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CarInfoBox(
-      vin: fields[0] as String,
+      make: fields[0] as String,
       model: fields[1] as String,
-      price: fields[2] as double,
-      uuid: fields[3] as String,
-      positiveFeedback: fields[4] as bool,
+      containerName: fields[2] as String,
+      similarity: fields[3] as int,
+      externalId: fields[4] as String,
     );
   }
 
@@ -30,15 +30,15 @@ class CarInfoBoxAdapter extends TypeAdapter<CarInfoBox> {
     writer
       ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.vin)
+      ..write(obj.make)
       ..writeByte(1)
       ..write(obj.model)
       ..writeByte(2)
-      ..write(obj.price)
+      ..write(obj.containerName)
       ..writeByte(3)
-      ..write(obj.uuid)
+      ..write(obj.similarity)
       ..writeByte(4)
-      ..write(obj.positiveFeedback);
+      ..write(obj.externalId);
   }
 
   @override

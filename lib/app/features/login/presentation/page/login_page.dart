@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CosColors.secondary,
+      backgroundColor: CosColors.background,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
                 bloc: widget.cubit,
                 listener: (context, state) {
                   if (state is LoginSuccess) {
-                    replaceWith(context, Routes.main);
+                    replaceWith(context, Routes.home);
                   } else if (state is LoginFailure) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(state.error.message)),

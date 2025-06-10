@@ -5,25 +5,25 @@ part 'car_info_box.g.dart';
 @HiveType(typeId: 1)
 class CarInfoBox extends HiveObject {
   CarInfoBox({
-    required this.vin,
+    required this.make,
     required this.model,
-    required this.price,
-    required this.uuid,
-    required this.positiveFeedback,
+    required this.containerName,
+    required this.similarity,
+    required this.externalId,
   });
 
   @HiveField(0)
-  final String vin;
+  final String make;
 
   @HiveField(1)
   final String model;
 
   @HiveField(2)
-  final double price;
+  final String containerName;
 
   @HiveField(3)
-  final String uuid;
+  final int similarity;
 
   @HiveField(4)
-  final bool positiveFeedback;
+  final String externalId;
 }

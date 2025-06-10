@@ -19,28 +19,30 @@ class SplashPage extends StatelessWidget with NavigationDelegate {
       bloc: cubit..checkUser(),
       listener: (context, state) {
         if (state is SplashUserFound) {
-          replaceWith(context, Routes.main);
+          replaceWith(context, Routes.home);
         } else if (state is SplashUserNotFound) {
           replaceWith(context, Routes.login);
         }
       },
       child: Scaffold(
-        backgroundColor: CosColors.secondary,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              CosImages.logo,
-              width: 200,
-              height: 200,
-            ),
-            const SizedBox(height: CosSpacing.xl),
-            const CircularProgressIndicator(
-              color: CosColors.primary,
-              strokeWidth: 4.0,
-            ),
-          ],
+        backgroundColor: CosColors.background,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                CosImages.logo,
+                width: 200,
+                height: 200,
+              ),
+              const SizedBox(height: CosSpacing.xl),
+              const CircularProgressIndicator(
+                color: CosColors.primary,
+                strokeWidth: 4.0,
+              ),
+            ],
+          ),
         ),
       ),
     );

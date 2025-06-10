@@ -40,7 +40,7 @@ class CosButton extends StatelessWidget {
   Color get _textColor {
     switch (type) {
       case CosButtonType.primary:
-        return CosColors.secondary;
+        return CosColors.background;
       case CosButtonType.secondary:
         return CosColors.primary;
     }

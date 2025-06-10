@@ -15,10 +15,10 @@ class AppRouter {
       Routes.splash: (context) => SplashPage(
             cubit: GetIt.I.get<SplashCubit>(),
           ),
-      Routes.main: (context) => const HomePage(),
       Routes.login: (context) => LoginPage(
             cubit: GetIt.I.get<LoginCubit>(),
           ),
+      Routes.home: (context) => const HomePage(),
     };
 
     final WidgetBuilder? builder = allRoutes[settings.name];
