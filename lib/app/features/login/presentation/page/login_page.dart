@@ -1,5 +1,4 @@
 import 'package:cos_challenge/app/common/router/router.dart';
-import 'package:cos_challenge/app/core/validators/email_validator.dart';
 import 'package:cos_challenge/app/core/validators/password_validator.dart';
 import 'package:cos_challenge/app/design/design.dart';
 import 'package:cos_challenge/app/design/tokens/cos_images.dart';
@@ -21,17 +20,17 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
   late final TextEditingController _emailController;
-  late final TextEditingController _passwordController;
+  late final TextEditingController _nameController;
   late final FocusNode _emailFocusNode;
-  late final FocusNode _passwordFocusNode;
+  late final FocusNode _nameFocusNode;
   late GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
     _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _nameController = TextEditingController();
     _emailFocusNode = FocusNode();
-    _passwordFocusNode = FocusNode();
+    _nameFocusNode = FocusNode();
     _formKey = GlobalKey<FormState>();
     super.initState();
   }
@@ -39,9 +38,9 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
+    _nameController.dispose();
     _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
+    _nameFocusNode.dispose();
     _formKey.currentState?.dispose();
     super.dispose();
   }
@@ -50,7 +49,7 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
     if (_formKey.currentState?.validate() ?? false) {
       widget.cubit.login(
         _emailController.text,
-        _passwordController.text,
+        _nameController.text,
       );
     }
   }
@@ -80,18 +79,17 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  FocusScope.of(context).requestFocus(_nameFocusNode);
                 },
                 validator: EmailValidator.validate,
               ),
               const SizedBox(height: CosSpacing.md),
               TextFormField(
-                controller: _passwordController,
-                focusNode: _passwordFocusNode,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
+                controller: _nameController,
+                focusNode: _nameFocusNode,
+                decoration: const InputDecoration(labelText: 'Name'),
+                keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.done,
-                validator: PasswordValidator.validate,
                 onFieldSubmitted: (_) {
                   _login();
                 },

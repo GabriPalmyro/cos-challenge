@@ -5,12 +5,12 @@ part 'user_box.g.dart';
 @HiveType(typeId: 0)
 class UserBox extends HiveObject {
   UserBox({
-    required this.id,
+    required this.name,
     required this.email,
   });
 
   @HiveField(0)
-  final String id;
+  final String name;
 
   @HiveField(1)
   final String email;

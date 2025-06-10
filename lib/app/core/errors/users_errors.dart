@@ -17,10 +17,3 @@ class InvalidCredentialsError extends UsersErrors {
   @override
   String toString() => 'InvalidCredentialsError: $message';
 }
-
-class NoSavedUser extends UsersErrors {
-  NoSavedUser({super.message = 'No user saved.'});
-
-  @override
-  String toString() => 'NoSavedUser: $message';
-}

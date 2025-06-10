@@ -12,6 +12,8 @@ import 'package:cos_challenge/app/common/auth/di/auth_module.dart' as _i319;
 import 'package:cos_challenge/app/common/auth/domain/boundary/auth_data_source.dart'
     as _i984;
 import 'package:cos_challenge/app/features/login/di/login_module.dart' as _i870;
+import 'package:cos_challenge/app/features/login/domain/use_case/save_user.dart'
+    as _i705;
 import 'package:cos_challenge/app/features/login/presentation/cubit/login_cubit.dart'
     as _i303;
 import 'package:get_it/get_it.dart' as _i174;
@@ -28,14 +30,17 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final loginModule = _$LoginModule();
     final authModule = _$AuthModule();
-    gh.factory<_i303.LoginCubit>(() => loginModule.loginCubit());
+    final loginModule = _$LoginModule();
     gh.factory<_i984.AuthDataSource>(() => authModule.authDataSource());
+    gh.factory<_i705.SaveUserUseCase>(
+        () => loginModule.saveUserUseCase(gh<_i984.AuthDataSource>()));
+    gh.factory<_i303.LoginCubit>(
+        () => loginModule.loginCubit(gh<_i705.SaveUserUseCase>()));
     return this;
   }
 }
 
-class _$LoginModule extends _i870.LoginModule {}
-
 class _$AuthModule extends _i319.AuthModule {}
+
+class _$LoginModule extends _i870.LoginModule {}
