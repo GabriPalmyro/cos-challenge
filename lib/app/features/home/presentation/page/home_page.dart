@@ -3,6 +3,7 @@ import 'package:cos_challenge/app/common/router/router.dart';
 import 'package:cos_challenge/app/design/design.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/car_search_cubit.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/user_info_cubit.dart';
+import 'package:cos_challenge/app/features/home/presentation/widgets/car_loading_widget.dart';
 import 'package:cos_challenge/app/features/home/presentation/widgets/no_car_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -68,15 +69,21 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
   @override
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
-    return BlocProvider(
-      create: (context) => widget.carCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => widget.carCubit..loadCachedCars(),
+        ),
+        BlocProvider(
+          create: (context) => widget.userCubit..getUserInfo(),
+        ),
+      ],
       child: Scaffold(
         backgroundColor: CosColors.background,
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: SizedBox(height: padding.top)),
             BlocConsumer<UserInfoCubit, UserInfoState>(
-              bloc: widget.userCubit..getUserInfo(),
               listener: (context, state) {
                 if (state is UserLogout) {
                   replaceWith(context, Routes.login);
@@ -111,62 +118,7 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                 );
               },
             ),
-            SliverAppBar(
-              floating: true,
-              pinned: true,
-              automaticallyImplyLeading: false,
-              backgroundColor: CosColors.background,
-              collapsedHeight: 85,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.all(CosSpacing.md),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _searchController,
-                      focusNode: _searchFocusNode,
-                      decoration: InputDecoration(
-                        hintText: 'Digite o VIN do veículo (17 caracteres)',
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(CosSpacing.sm),
-                          borderSide: BorderSide.none,
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(CosSpacing.sm),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        prefixIcon: const Icon(Icons.search, color: CosColors.primary),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                          },
-                        ),
-                      ),
-                      textCapitalization: TextCapitalization.characters,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[A-HJ-NPR-Z0-9]')),
-                        LengthLimitingTextInputFormatter(CosChallenge.vinLength),
-                      ],
-                      onSubmitted: (_) => _performSearch(),
-                    ),
-                    const SizedBox(height: CosSpacing.md),
-                    BlocBuilder<CarSearchCubit, CarSearchState>(
-                      builder: (context, state) {
-                        return CosButton(
-                          onPressed: state is! CarSearchLoading ? _performSearch : null,
-                          size: CosButtonSize.medium,
-                          isLoading: state is CarSearchLoading,
-                          type: CosButtonType.secondary,
-                          label: 'Search',
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            BlocConsumer<CarSearchCubit, CarSearchState>(
+            BlocListener<CarSearchCubit, CarSearchState>(
               listener: (context, state) {
                 if (state is CarSearchError) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -179,50 +131,121 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                   navigateTo(context, Routes.carInfo, arguments: state.carInfo);
                 }
               },
-              builder: (context, state) {
-                if (state is CarSearchLoading) {
-                  return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                } else if (state is CarSearchError) {
-                  return SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(CosSpacing.md),
-                      child: Text(
-                        state.error.message,
-                        style: const TextStyle(
-                          color: CosColors.error,
+              child: BlocBuilder<CarSearchCubit, CarSearchState>(
+                builder: (context, state) {
+                  if (state is CarSearchLoading) {
+                    return const SliverToBoxAdapter(
+                      child: CarSearchLoadingWidget(),
+                    );
+                  } else if (state is CarSearchError) {
+                    return SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(CosSpacing.md),
+                        child: Text(
+                          state.error.message,
+                          style: const TextStyle(
+                            color: CosColors.error,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                } else if (state is MultipleCarSearchLoaded) {
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return Column(
-                          children: state.carInfoList.map((car) {
-                            return ListTile(
-                              title: Text('${car.make} ${car.model}'),
-                              subtitle: Text('VIN: ${car.externalId}'),
-                            );
-                          }).toList(),
-                        );
-                      },
-                      childCount: state.carInfoList.length,
-                    ),
-                  );
-                } else {
-                  return const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.all(CosSpacing.md),
-                      child: NoCarFoundWidget(),
-                    ),
-                  );
-                }
-              },
+                    );
+                  } else if (state is MultipleCarSearchLoaded) {
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final car = state.carInfoList[index];
+                          return ListTile(
+                            title: Text('${car.make} ${car.model}'),
+                            subtitle: Text('VIN: ${car.externalId}'),
+                          );
+                        },
+                        childCount: state.carInfoList.length,
+                      ),
+                    );
+                  } else {
+                    return const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.all(CosSpacing.md),
+                        child: NoCarFoundWidget(),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+            // Add bottom padding to account for the fixed search bar
+            SliverToBoxAdapter(
+              child: SizedBox(height: 120 + padding.bottom),
             ),
           ],
+        ),
+        // Fixed bottom search bar
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.only(
+            left: CosSpacing.md,
+            right: CosSpacing.md,
+            top: CosSpacing.md,
+            bottom: padding.bottom + CosSpacing.md,
+          ),
+          decoration: BoxDecoration(
+            color: CosColors.background,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
+                decoration: InputDecoration(
+                  hintText: 'Digite o VIN do veículo (17 caracteres)',
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(CosSpacing.sm),
+                    borderSide: BorderSide.none,
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(CosSpacing.sm),
+                    borderSide: const BorderSide(color: Colors.red),
+                  ),
+                  prefixIcon: const Icon(Icons.search, color: CosColors.primary),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      _searchController.clear();
+                    },
+                  ),
+                ),
+                textCapitalization: TextCapitalization.characters,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[A-HJ-NPR-Z0-9]')),
+                  LengthLimitingTextInputFormatter(CosChallenge.vinLength),
+                ],
+                onSubmitted: (_) => _performSearch(),
+              ),
+              const SizedBox(height: CosSpacing.md),
+              BlocBuilder<CarSearchCubit, CarSearchState>(
+                builder: (context, state) {
+                  final isLoading = state is CarSearchLoading;
+                  return SizedBox(
+                    width: double.infinity,
+                    child: CosButton(
+                      onPressed: !isLoading ? _performSearch : null,
+                      isLoading: isLoading,
+                      size: CosButtonSize.medium,
+                      label: 'Search',
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

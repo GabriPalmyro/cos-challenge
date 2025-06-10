@@ -20,7 +20,7 @@ class CarSearchCubit extends Cubit<CarSearchState> {
 
   Future<void> searchCarByVin(String vin) async {
     try {
-      emit(const CarSearchInitial());
+      emit(const CarSearchLoading());
       final result = await _getCarByVinUseCase.call(vin);
       if (result is CarSearchSuccess) {
         emit(CarSearchLoaded(result.carInfo));

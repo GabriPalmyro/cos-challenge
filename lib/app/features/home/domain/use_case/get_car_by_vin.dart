@@ -53,6 +53,6 @@ class GetCarByVinUseCaseImpl implements GetCarByVinUseCase {
 
   Future<void> _saveNewCarToCache(List<CarModel> cars) async {
     await _carDataSource.deleteCacheOnCache();
-    _carDataSource.saveCacheOnCache(cars);
+    await _carDataSource.saveCacheOnCache(cars);
   }
 }

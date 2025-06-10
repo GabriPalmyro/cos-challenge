@@ -117,15 +117,6 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
                   );
                 },
               ),
-              const SizedBox(height: CosSpacing.md),
-              CosButton(
-                label: 'Create Account',
-                type: CosButtonType.secondary,
-                size: CosButtonSize.large,
-                onPressed: () {
-                  // navigateTo(context, Routes.register);
-                },
-              ),
             ],
           ),
         ),
