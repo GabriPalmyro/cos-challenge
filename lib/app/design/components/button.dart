@@ -1,4 +1,3 @@
-import 'package:cos_challenge/app/design/tokens/cos_fonts.dart';
 import 'package:cos_challenge/app/design/tokens/tokens.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +31,7 @@ class CosButton extends StatelessWidget {
       case CosButtonType.primary:
         return CosColors.primary;
       case CosButtonType.secondary:
-        return CosColors.secondary;
+        return CosColors.transparent;
     }
   }
 
@@ -46,12 +45,25 @@ class CosButton extends StatelessWidget {
   }
 
   double get _buttonHeight {
-    switch (type) {
-      case CosButtonType.primary:
+    switch (size) {
+      case CosButtonSize.large:
         return 48.0;
-      case CosButtonType.secondary:
+      case CosButtonSize.medium:
         return 40.0;
+      case CosButtonSize.small:
+        return 32.0;
     }
+  }
+
+  Border? get _buttonBorder {
+    if (type == CosButtonType.primary) {
+      return null;
+    }
+
+    return Border.all(
+      color: CosColors.primary,
+      width: CosBorder.width,
+    );
   }
 
   @override
@@ -63,6 +75,7 @@ class CosButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: _buttonColor,
           borderRadius: BorderRadius.circular(CosBorder.radiusSmall),
+          border: _buttonBorder,
         ),
         child: GestureDetector(
           onTap: onPressed,

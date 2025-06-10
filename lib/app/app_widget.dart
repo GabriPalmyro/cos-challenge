@@ -1,3 +1,4 @@
+import 'package:cos_challenge/app/design/design.dart';
 import 'package:flutter/material.dart';
 
 import 'common/router/router.dart';
@@ -14,7 +15,14 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'COS Challenge',
-      theme: ThemeData(useMaterial3: true),
+      themeMode: ThemeMode.dark,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: CosColors.primary,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.login,
       onGenerateRoute: AppRouter.onGenerateRoute,
