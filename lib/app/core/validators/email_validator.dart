@@ -12,17 +12,9 @@ class PasswordValidator {
     if (value == null || value.isEmpty) {
       return 'Password cannot be empty';
     }
-    if (value.length < 8) {
+
+    if (value.length < 6) {
       return 'Password must be at least 8 characters long';
-    }
-    if (!value.contains(PasswordRegEx.passwordNoNumber)) {
-      return 'Password must contain at least one number';
-    }
-    if (!value.contains(PasswordRegEx.passwordNoLetter)) {
-      return 'Password must contain at least one letter';
-    }
-    if (PasswordRegEx.passwordTooSimple.hasMatch(value)) {
-      return 'Password is too simple, use a mix of letters, numbers, and symbols';
     }
     return null;
   }

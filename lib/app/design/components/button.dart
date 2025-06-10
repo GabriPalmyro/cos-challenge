@@ -17,6 +17,7 @@ class CosButton extends StatelessWidget {
     required this.label,
     this.type = CosButtonType.primary,
     this.size = CosButtonSize.medium,
+    this.isLoading = false,
     this.onPressed,
     super.key,
   });
@@ -25,6 +26,7 @@ class CosButton extends StatelessWidget {
   final CosButtonType type;
   final CosButtonSize size;
   final VoidCallback? onPressed;
+  final bool isLoading;
 
   Color get _buttonColor {
     switch (type) {
@@ -81,13 +83,21 @@ class CosButton extends StatelessWidget {
           onTap: onPressed,
           behavior: HitTestBehavior.opaque,
           child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: _textColor,
-                fontSize: CosFonts.medium,
-              ),
-            ),
+            child: isLoading
+                ? SizedBox.fromSize(
+                    size: Size.square(_buttonHeight * 0.4),
+                    child: CircularProgressIndicator(
+                      color: _textColor,
+                    ),
+                  )
+                : Text(
+                    label,
+                    style: TextStyle(
+                      color: _textColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: CosFonts.medium,
+                    ),
+                  ),
           ),
         ),
       ),

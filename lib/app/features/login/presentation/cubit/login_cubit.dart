@@ -7,7 +7,10 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(const LoginInitial());
 
-  void login() {
+  void login(
+    String email,
+    String password,
+  ) {
     emit(const LoginLoading());
     Future.delayed(const Duration(seconds: 2), () {
       emit(const LoginSuccess());

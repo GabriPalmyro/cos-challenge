@@ -38,6 +38,7 @@ dev_dependencies:
   mocktail: ^1.0.4
   build_runner: ^2.4.15
   injectable_generator: ^2.6.2
+  hive_generator: ^2.0.1
 
   flutter_lints: ^5.0.0
 

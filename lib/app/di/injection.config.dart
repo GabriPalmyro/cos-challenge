@@ -1,4 +1,3 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -9,6 +8,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cos_challenge/app/common/auth/di/auth_module.dart' as _i319;
+import 'package:cos_challenge/app/common/auth/domain/boundary/auth_data_source.dart'
+    as _i984;
 import 'package:cos_challenge/app/features/login/di/login_module.dart' as _i870;
 import 'package:cos_challenge/app/features/login/presentation/cubit/login_cubit.dart'
     as _i303;
@@ -27,9 +29,13 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final loginModule = _$LoginModule();
+    final authModule = _$AuthModule();
     gh.factory<_i303.LoginCubit>(() => loginModule.loginCubit());
+    gh.factory<_i984.AuthDataSource>(() => authModule.authDataSource());
     return this;
   }
 }
 
 class _$LoginModule extends _i870.LoginModule {}
+
+class _$AuthModule extends _i319.AuthModule {}
