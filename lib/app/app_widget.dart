@@ -24,7 +24,7 @@ class _AppWidgetState extends State<AppWidget> {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.login,
+      initialRoute: Routes.splash,
       onGenerateRoute: AppRouter.onGenerateRoute,
     );
   }

@@ -16,7 +16,6 @@ class LoginCubit extends Cubit<LoginState> {
   ) async {
     try {
       emit(const LoginLoading());
-      await Future.delayed(const Duration(seconds: 2));
       await _saveUserUseCase.call(name, email);
       emit(const LoginSuccess());
     } catch (e) {

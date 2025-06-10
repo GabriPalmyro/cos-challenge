@@ -19,10 +19,10 @@ class AuthLocalDataSource implements AuthDataSource {
   }
 
   @override
-  Future<UserModel> getUserByEmail(String email) {
+  Future<UserModel> getCurrentUser() {
     try {
       final userBox = Boxes.userBox;
-      final user = userBox.get(email);
+      final user = userBox.values.isNotEmpty ? userBox.values.first : null;
       if (user != null) {
         return Future.value(UserModel.fromBox(user));
       } else {

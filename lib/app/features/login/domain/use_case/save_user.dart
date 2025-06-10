@@ -11,6 +11,7 @@ class SaveUserUseCaseImpl implements SaveUserUseCase {
 
   @override
   Future<void> call(String name, String email) async {
+    await Future.delayed(const Duration(seconds: 2));
     return await _authDataSource.saveUser(
       UserModel(
         name: name,
