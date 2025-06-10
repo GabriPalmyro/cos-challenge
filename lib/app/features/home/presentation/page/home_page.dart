@@ -72,10 +72,10 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => widget.carCubit..loadCachedCars(),
+          create: (_) => widget.carCubit..loadCachedCars(),
         ),
         BlocProvider(
-          create: (context) => widget.userCubit..getUserInfo(),
+          create: (_) => widget.userCubit..getUserInfo(),
         ),
       ],
       child: Scaffold(
@@ -157,6 +157,13 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                           return ListTile(
                             title: Text('${car.make} ${car.model}'),
                             subtitle: Text('VIN: ${car.externalId}'),
+                            trailing: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.chevron_right,
+                                color: CosColors.primary,
+                              ),
+                            ),
                           );
                         },
                         childCount: state.carInfoList.length,
