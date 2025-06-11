@@ -22,6 +22,8 @@ import 'package:cos_challenge/app/features/home/domain/use_case/get_car_by_vin.d
     as _i450;
 import 'package:cos_challenge/app/features/home/domain/use_case/get_user.dart'
     as _i214;
+import 'package:cos_challenge/app/features/home/domain/use_case/logout_user.dart'
+    as _i623;
 import 'package:cos_challenge/app/features/home/presentation/cubit/car_search_cubit.dart'
     as _i833;
 import 'package:cos_challenge/app/features/home/presentation/cubit/user_info_cubit.dart'
@@ -51,20 +53,22 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final authModule = _$AuthModule();
     final homeModule = _$HomeModule();
-    final loginModule = _$LoginModule();
+    final authModule = _$AuthModule();
     final splashModule = _$SplashModule();
-    gh.factory<_i984.AuthDataSource>(() => authModule.authDataSource());
+    final loginModule = _$LoginModule();
     gh.factory<_i958.CarDataSource>(() => homeModule.carDataSource());
     gh.factory<_i792.CarSearchRepository>(
         () => homeModule.carSearchRepository());
-    gh.factory<_i705.SaveUserUseCase>(
-        () => loginModule.saveUserUseCase(gh<_i984.AuthDataSource>()));
-    gh.factory<_i309.VerifyUserUseCase>(
-        () => splashModule.getUserUseCase(gh<_i984.AuthDataSource>()));
+    gh.factory<_i984.AuthDataSource>(() => authModule.authDataSource());
     gh.factory<_i214.GetUserUseCase>(
         () => homeModule.getUserUseCase(gh<_i984.AuthDataSource>()));
+    gh.factory<_i623.LogoutUserUseCase>(
+        () => homeModule.getLogoutUserUseCase(gh<_i984.AuthDataSource>()));
+    gh.factory<_i309.VerifyUserUseCase>(
+        () => splashModule.getUserUseCase(gh<_i984.AuthDataSource>()));
+    gh.factory<_i705.SaveUserUseCase>(
+        () => loginModule.saveUserUseCase(gh<_i984.AuthDataSource>()));
     gh.factory<_i450.GetCarByVinUseCase>(() => homeModule.getCarByVinUseCase(
           gh<_i792.CarSearchRepository>(),
           gh<_i958.CarDataSource>(),
@@ -78,18 +82,20 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i450.GetCarByVinUseCase>(),
           gh<_i209.GetCachedCarsUseCase>(),
         ));
-    gh.factory<_i196.UserInfoCubit>(
-        () => homeModule.userInfoCubit(gh<_i214.GetUserUseCase>()));
+    gh.factory<_i196.UserInfoCubit>(() => homeModule.userInfoCubit(
+          gh<_i214.GetUserUseCase>(),
+          gh<_i623.LogoutUserUseCase>(),
+        ));
     gh.factory<_i303.LoginCubit>(
         () => loginModule.loginCubit(gh<_i705.SaveUserUseCase>()));
     return this;
   }
 }
 
-class _$AuthModule extends _i319.AuthModule {}
-
 class _$HomeModule extends _i957.HomeModule {}
 
-class _$LoginModule extends _i870.LoginModule {}
+class _$AuthModule extends _i319.AuthModule {}
 
 class _$SplashModule extends _i622.SplashModule {}
+
+class _$LoginModule extends _i870.LoginModule {}

@@ -23,7 +23,8 @@ final class UserInfoLoaded extends UserInfoState {
 }
 
 final class UserLogout extends UserInfoState {
-  const UserLogout();
+  const UserLogout(this.user);
+  final UserModel user;
 
   @override
   List<Object> get props => [];

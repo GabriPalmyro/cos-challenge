@@ -1,7 +1,5 @@
 import 'package:cos_challenge/app/common/router/routes.dart';
 import 'package:cos_challenge/app/features/home/data/model/car_info_model.dart';
-import 'package:cos_challenge/app/features/home/presentation/cubit/car_search_cubit.dart';
-import 'package:cos_challenge/app/features/home/presentation/cubit/user_info_cubit.dart';
 import 'package:cos_challenge/app/features/home/presentation/page/car_info_page.dart';
 import 'package:cos_challenge/app/features/home/presentation/page/home_page.dart';
 import 'package:cos_challenge/app/features/login/presentation/cubit/login_cubit.dart';
@@ -22,10 +20,7 @@ class AppRouter {
       Routes.login: (context) => LoginPage(
             cubit: GetIt.I.get<LoginCubit>(),
           ),
-      Routes.home: (context) => HomePage(
-            userCubit: GetIt.I.get<UserInfoCubit>(),
-            carCubit: GetIt.I.get<CarSearchCubit>(),
-          ),
+      Routes.home: (context) => const HomePage(),
       Routes.carInfo: (context) => CarInfoPage(
             carInfo: settings.arguments as CarInfoModel,
           ),

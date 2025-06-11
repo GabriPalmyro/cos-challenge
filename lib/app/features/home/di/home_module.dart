@@ -6,6 +6,7 @@ import 'package:cos_challenge/app/features/home/domain/boundary/car_search_repos
 import 'package:cos_challenge/app/features/home/domain/use_case/get_cached_cars.dart';
 import 'package:cos_challenge/app/features/home/domain/use_case/get_car_by_vin.dart';
 import 'package:cos_challenge/app/features/home/domain/use_case/get_user.dart';
+import 'package:cos_challenge/app/features/home/domain/use_case/logout_user.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/car_search_cubit.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/user_info_cubit.dart';
 import 'package:injectable/injectable.dart';
@@ -23,11 +24,20 @@ abstract class HomeModule {
         authDataSource,
       );
 
+  LogoutUserUseCase getLogoutUserUseCase(
+    AuthDataSource authDataSource,
+  ) =>
+      LogoutUserUseCaseImpl(
+        authDataSource,
+      );
+
   UserInfoCubit userInfoCubit(
     GetUserUseCase getUserUseCase,
+    LogoutUserUseCase logoutUserUseCase,
   ) =>
       UserInfoCubit(
         getUserUseCase,
+        logoutUserUseCase,
       );
 
   GetCarByVinUseCase getCarByVinUseCase(

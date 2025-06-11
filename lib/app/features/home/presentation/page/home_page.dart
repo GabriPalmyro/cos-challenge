@@ -8,24 +8,28 @@ import 'package:cos_challenge/app/features/home/presentation/widgets/no_car_foun
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget with NavigationDelegate {
-  const HomePage({
-    required this.userCubit,
-    required this.carCubit,
-    super.key,
-  });
-
-  final UserInfoCubit userCubit;
-  final CarSearchCubit carCubit;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> with NavigationDelegate {
+  late CarSearchCubit carCubit;
+  late UserInfoCubit userCubit;
+
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    carCubit = GetIt.I.get<CarSearchCubit>();
+    userCubit = GetIt.I.get<UserInfoCubit>();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -36,7 +40,7 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
 
   String? _validateVin(String? value) {
     if (value == null || value.isEmpty) {
-      return null; // Permitir campo vazio
+      return 'VIN cannot be empty';
     }
 
     // Remove espaços em branco
@@ -44,13 +48,13 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
 
     // Validar se tem exatamente 17 caracteres
     if (cleanValue.length != CosChallenge.vinLength) {
-      return 'VIN deve ter exatamente ${CosChallenge.vinLength} caracteres';
+      return 'VIN must have exactly ${CosChallenge.vinLength} characters';
     }
 
     // Validar se contém apenas letras e números (padrão VIN)
     final vinRegex = RegExp(r'^[A-HJ-NPR-Z0-9]{17}$');
     if (!vinRegex.hasMatch(cleanValue.toUpperCase())) {
-      return 'VIN deve conter apenas letras e números (exceto I, O, Q)';
+      return 'VIN must contain only letters and numbers (except I, O, Q)';
     }
 
     return null;
@@ -60,8 +64,18 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
     final vin = _searchController.text.trim();
     final error = _validateVin(vin);
 
-    if (error == null && vin.isNotEmpty) {
-      widget.carCubit.searchCarByVin(vin.toUpperCase());
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error),
+          backgroundColor: CosColors.error,
+        ),
+      );
+      return;
+    }
+
+    if (vin.isNotEmpty) {
+      carCubit.searchCarByVin(vin.toUpperCase());
       _searchFocusNode.unfocus();
     }
   }
@@ -71,11 +85,11 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
     final padding = MediaQuery.of(context).padding;
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => widget.carCubit..loadCachedCars(),
+        BlocProvider.value(
+          value: carCubit..loadCachedCars(),
         ),
-        BlocProvider(
-          create: (_) => widget.userCubit..getUserInfo(),
+        BlocProvider.value(
+          value: userCubit..getUserInfo(),
         ),
       ],
       child: Scaffold(
@@ -114,7 +128,7 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                                     color: CosColors.primary,
                                   ),
                                   onPressed: () {
-                                    // Handle logout action
+                                    context.read<UserInfoCubit>().logout();
                                   },
                                 ),
                               ],

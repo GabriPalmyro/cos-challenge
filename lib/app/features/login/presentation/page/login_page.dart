@@ -46,6 +46,7 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
   }
 
   void _login() {
+    FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
       widget.cubit.login(
         _emailController.text,
