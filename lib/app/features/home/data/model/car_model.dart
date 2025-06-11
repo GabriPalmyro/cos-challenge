@@ -24,16 +24,6 @@ class CarModel extends Equatable {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'make': make,
-      'model': model,
-      'containerName': containerName,
-      'similarity': similarity,
-      'externalId': externalId,
-    };
-  }
-
   CarModel copyWith({
     String? make,
     String? model,
