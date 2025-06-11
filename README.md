@@ -4,6 +4,10 @@
 
 A Flutter application for searching and managing car information using VIN (Vehicle Identification Number) lookup. I developed this project as a technical assessment to demonstrate my Flutter development skills, showcasing clean architecture, state management, and local caching capabilities.
 
+## 📱 Demo
+
+<img src="example/example.gif" alt="App Demo" width="300">
+
 ## 🚗 Features
 
 ### Core Functionality
