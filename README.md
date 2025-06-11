@@ -1,10 +1,8 @@
 # COS Challenge - Car Search Flutter App
 
-A Flutter application for searching and managing car information using VIN (Vehicle Identification Number) lookup. This app demonstrates modern Flutter development practices with clean architecture, state management, and local caching.
+> **Technical Test for Car on Sale MidLevel Flutter Engineer Role**
 
-## 📱 Demo
-
-<img src="example/example.gif" alt="App Demo" width="400">
+A Flutter application for searching and managing car information using VIN (Vehicle Identification Number) lookup. I developed this project as a technical assessment to demonstrate my Flutter development skills, showcasing clean architecture, state management, and local caching capabilities.
 
 ## 🚗 Features
 
@@ -29,7 +27,7 @@ A Flutter application for searching and managing car information using VIN (Vehi
 
 ## 🏗️ Architecture
 
-This project follows **Clean Architecture** principles with the following structure:
+I implemented this project following **Clean Architecture** principles with the following structure:
 
 ```
 lib/
