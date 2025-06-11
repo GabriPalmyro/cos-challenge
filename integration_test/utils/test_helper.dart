@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 class TestHelper {
   TestHelper._();
 
-  Future<void> loginHelper(WidgetTester tester) async {
+  static Future<void> loginHelper(WidgetTester tester) async {
     // Verify we're on the login page by finding email input
     final emailInput = find.byType(TextFormField).first;
     expect(emailInput, findsOneWidget);
