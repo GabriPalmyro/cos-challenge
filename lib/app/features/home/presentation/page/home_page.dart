@@ -149,6 +149,9 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                     );
                   },
                 ),
+                const SliverToBoxAdapter(child: SizedBox(height: CosSpacing.xs)),
+                const SliverToBoxAdapter(child: Divider(height: 1, thickness: 1, color: CosColors.primary)),
+                const SliverToBoxAdapter(child: SizedBox(height: CosSpacing.xs)),
                 BlocListener<CarSearchCubit, CarSearchState>(
                   listener: (context, state) {
                     if (state is CarSearchError) {
@@ -165,6 +168,7 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                       );
                     } else if (state is CarSearchLoaded) {
                       navigateTo(context, Routes.carInfo, arguments: state.carInfo);
+                      context.read<CarSearchCubit>().loadCachedCars();
                     } else if (state is MultipleCarSearchLoaded) {
                       showModalBottomSheet(
                         context: context,
@@ -203,9 +207,14 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
                               final car = carList[index];
-                              return ListTile(
-                                title: Text('${car.make} ${car.model}'),
-                                subtitle: Text('Price: ${car.price.toDouble().toCurrency()}'),
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    title: Text('${car.make} ${car.model}'),
+                                    subtitle: Text('Price: ${car.price.toDouble().toCurrency()}'),
+                                    trailing: Text('ID: ${car.id.toString()}'),
+                                  ),
+                                ],
                               );
                             },
                             childCount: carList.length,
