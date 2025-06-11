@@ -28,7 +28,9 @@ class GetCarByVinUseCaseImpl implements GetCarByVinUseCase {
 
       if (result is CarMultipleChoices) {
         return CarMultipleChoices(
-          result.carsList,
+          result.carsList..sort(
+            (a, b) => b.similarity.compareTo(a.similarity),
+          ),
           lastSearchResults: lastResults,
         );
       }

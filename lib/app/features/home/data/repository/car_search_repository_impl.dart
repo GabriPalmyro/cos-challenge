@@ -35,10 +35,7 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
       } else if (response.statusCode == HttpStatus.multipleChoices) {
         try {
           final jsonList = jsonDecode(response.body) as List;
-          final cars = jsonList.map((e) => CarModel.fromJson(e)).toList()
-            ..sort(
-              (a, b) => b.similarity.compareTo(a.similarity),
-            );
+          final cars = jsonList.map((e) => CarModel.fromJson(e)).toList();
           return CarMultipleChoices(cars);
         } catch (_) {
           throw const CarsDeserializationError();
