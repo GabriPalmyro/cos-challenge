@@ -1,5 +1,5 @@
 import 'package:cos_challenge/app/common/router/router.dart';
-import 'package:cos_challenge/app/core/validators/password_validator.dart';
+import 'package:cos_challenge/app/core/validators/email_validator.dart';
 import 'package:cos_challenge/app/design/design.dart';
 import 'package:cos_challenge/app/design/tokens/cos_images.dart';
 import 'package:cos_challenge/app/features/login/presentation/cubit/login_cubit.dart';

@@ -2,6 +2,7 @@ import 'package:cos_challenge/app/common/client/cos_client.dart';
 import 'package:cos_challenge/app/common/router/router.dart';
 import 'package:cos_challenge/app/core/errors/cars_errors.dart';
 import 'package:cos_challenge/app/core/extensions/price_extension.dart';
+import 'package:cos_challenge/app/core/validators/vin_validator.dart';
 import 'package:cos_challenge/app/design/design.dart';
 import 'package:cos_challenge/app/features/home/data/model/car_info_model.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/car_search_cubit.dart';
@@ -42,28 +43,9 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
     super.dispose();
   }
 
-  String? _validateVin(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'VIN cannot be empty';
-    }
-
-    final cleanValue = value.replaceAll(' ', '');
-
-    if (cleanValue.length != CosChallenge.vinLength) {
-      return 'VIN must have exactly ${CosChallenge.vinLength} characters';
-    }
-
-    final vinRegex = RegExp(r'^[A-HJ-NPR-Z0-9]{17}$');
-    if (!vinRegex.hasMatch(cleanValue.toUpperCase())) {
-      return 'VIN must contain only letters and numbers (except I, O, Q)';
-    }
-
-    return null;
-  }
-
   void _performSearch() {
     final vin = _searchController.text.trim();
-    final error = _validateVin(vin);
+    final error = VinValidator.validate(vin);
 
     if (error != null) {
       ScaffoldMessenger.of(context).showSnackBar(

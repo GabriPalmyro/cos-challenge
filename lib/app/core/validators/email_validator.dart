@@ -1,20 +1,17 @@
-class PasswordRegEx {
-  PasswordRegEx._();
-  static final RegExp passwordNoNumber = RegExp(r'[0-9]');
-  static final RegExp passwordNoLetter = RegExp(r'[a-zA-Z]');
-  static final RegExp passwordTooSimple = RegExp(r'^[a-zA-Z0-9]+$');
+class EmailRegEx {
+  EmailRegEx._();
+  static final RegExp email = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 }
 
-class PasswordValidator {
-  PasswordValidator._();
+class EmailValidator {
+  EmailValidator._();
 
   static String? validate(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Password cannot be empty';
+      return 'Email cannot be empty';
     }
-
-    if (value.length < 6) {
-      return 'Password must be at least 8 characters long';
+    if (!EmailRegEx.email.hasMatch(value)) {
+      return 'Invalid email format';
     }
     return null;
   }
