@@ -16,7 +16,7 @@ class GetUserUseCaseImpl implements GetUserUseCase {
       await Future.delayed(const Duration(seconds: 2));
       return await _authDataSource.getCurrentUser();
     } catch (e) {
-      throw UserNotFoundError();
+      throw const UserNotFoundError();
     }
   }
 }

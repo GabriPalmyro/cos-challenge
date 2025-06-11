@@ -20,29 +20,9 @@ class CarModel extends Equatable {
         externalId: json['externalId'] as String,
       );
     } catch (e) {
-      throw CarsDeserializationError();
+      throw const CarsDeserializationError();
     }
   }
-
-  // factory CarModel.fromBox(CarInfoBox box) {
-  //   return CarModel(
-  //     make: box.make,
-  //     model: box.model,
-  //     containerName: box.containerName,
-  //     similarity: box.similarity,
-  //     externalId: box.externalId,
-  //   );
-  // }
-
-  // CarInfoBox toBox() {
-  //   return CarInfoBox(
-  //     make: make,
-  //     model: model,
-  //     containerName: containerName,
-  //     similarity: similarity,
-  //     externalId: externalId,
-  //   );
-  // }
 
   Map<String, dynamic> toJson() {
     return {

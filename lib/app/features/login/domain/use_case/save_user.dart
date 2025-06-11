@@ -12,6 +12,11 @@ class SaveUserUseCaseImpl implements SaveUserUseCase {
   @override
   Future<void> call(String name, String email) async {
     await Future.delayed(const Duration(seconds: 2));
+
+    if (name.isEmpty || email.isEmpty) {
+      throw Exception('Name and email cannot be empty');
+    }
+
     return await _authDataSource.saveUser(
       UserModel(
         name: name,

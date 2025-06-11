@@ -19,7 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
       await _saveUserUseCase.call(name, email);
       emit(const LoginSuccess());
     } catch (e) {
-      emit(LoginFailure(InvalidCredentialsError()));
+      emit(const LoginFailure(InvalidCredentialsError()));
     }
   }
 }

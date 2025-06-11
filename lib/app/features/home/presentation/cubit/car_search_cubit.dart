@@ -30,10 +30,10 @@ class CarSearchCubit extends Cubit<CarSearchState> {
       } else if (result is CarSearchFailure) {
         emit(CarSearchError(result.error, cachedResults: result.cachedResults));
       } else {
-        emit(CarSearchError(CarsNotFoundError()));
+        emit(const CarSearchError(CarsNotFoundError()));
       }
     } catch (e) {
-      emit(CarSearchError(CarsNotFoundError()));
+      emit(const CarSearchError(CarsNotFoundError()));
     }
   }
 

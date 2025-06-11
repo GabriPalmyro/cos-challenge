@@ -19,7 +19,7 @@ class UserInfoCubit extends Cubit<UserInfoState> {
       final user = await _getUserUseCase.call();
       emit(UserInfoLoaded(user));
     } catch (e) {
-      emit(UserInfoError(UserNotFoundError()));
+      emit(const UserInfoError(UserNotFoundError()));
     }
   }
 

@@ -51,12 +51,10 @@ class GetCarByVinUseCaseImpl implements GetCarByVinUseCase {
 
       return result;
     } catch (e) {
-      print('Error fetching car by VIN: $e');
-
       final cacheList = await _carDataSource.getCacheOnCache();
 
       return CarSearchFailure(
-        e is CarsErrors ? e : CarsNotFoundError(),
+        e is CarsErrors ? e : const CarsNotFoundError(),
         cachedResults: cacheList,
       );
     }

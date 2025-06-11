@@ -11,7 +11,7 @@ class AuthLocalDataSource implements AuthDataSource {
       if (userBox.containsKey(email)) {
         return userBox.delete(email);
       } else {
-        throw UserNotFoundError();
+        throw const UserNotFoundError();
       }
     } catch (e) {
       rethrow;
@@ -26,7 +26,7 @@ class AuthLocalDataSource implements AuthDataSource {
       if (user != null) {
         return Future.value(UserModel.fromBox(user));
       } else {
-        throw UserNotFoundError();
+        throw const UserNotFoundError();
       }
     } catch (e) {
       rethrow;

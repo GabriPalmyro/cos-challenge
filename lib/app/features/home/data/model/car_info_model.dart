@@ -42,7 +42,7 @@ class CarInfoModel extends Equatable {
         estimationRequestId: json['estimationRequestId'],
       );
     } catch (e) {
-      throw CarsDeserializationError();
+      throw const CarsDeserializationError();
     }
   }
 

@@ -30,7 +30,7 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
           final json = jsonDecode(response.body);
           return CarSearchSuccess(CarInfoModel.fromJson(json));
         } catch (_) {
-          throw CarsDeserializationError();
+          throw const CarsDeserializationError();
         }
       } else if (response.statusCode == HttpStatus.multipleChoices) {
         try {
@@ -41,7 +41,7 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
             );
           return CarMultipleChoices(cars);
         } catch (_) {
-          throw CarsDeserializationError();
+          throw const CarsDeserializationError();
         }
       } else if (response.statusCode == HttpStatus.badRequest) {
         final json = jsonDecode(response.body);
@@ -57,9 +57,9 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
         );
       }
     } on TimeoutException catch (_) {
-      throw CarsSearchTimeoutException();
+      throw const CarsSearchTimeoutException();
     } on http.ClientException catch (_) {
-      throw CarsClientException();
+      throw const CarsClientException();
     } on CarsErrors catch (_) {
       rethrow;
     }
