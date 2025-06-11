@@ -44,7 +44,10 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
           throw CarsDeserializationError();
         }
       } else if (response.statusCode == HttpStatus.badRequest) {
-        throw CarMaintenceDelayException();
+        final json = jsonDecode(response.body);
+        throw CarMaintenanceDelayException(
+          delayInSeconds: int.tryParse(json['params']['delaySeconds']) ?? 0,
+        );
       } else {
         final error = jsonDecode(response.body);
         return CarSearchFailure(

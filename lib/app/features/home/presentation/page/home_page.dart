@@ -1,5 +1,6 @@
 import 'package:cos_challenge/app/common/client/cos_client.dart';
 import 'package:cos_challenge/app/common/router/router.dart';
+import 'package:cos_challenge/app/core/errors/cars_errors.dart';
 import 'package:cos_challenge/app/core/extensions/price_extension.dart';
 import 'package:cos_challenge/app/design/design.dart';
 import 'package:cos_challenge/app/features/home/data/model/car_info_model.dart';
@@ -46,15 +47,12 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
       return 'VIN cannot be empty';
     }
 
-    // Remove espaços em branco
     final cleanValue = value.replaceAll(' ', '');
 
-    // Validar se tem exatamente 17 caracteres
     if (cleanValue.length != CosChallenge.vinLength) {
       return 'VIN must have exactly ${CosChallenge.vinLength} characters';
     }
 
-    // Validar se contém apenas letras e números (padrão VIN)
     final vinRegex = RegExp(r'^[A-HJ-NPR-Z0-9]{17}$');
     if (!vinRegex.hasMatch(cleanValue.toUpperCase())) {
       return 'VIN must contain only letters and numbers (except I, O, Q)';
@@ -154,7 +152,19 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                 const SliverToBoxAdapter(child: SizedBox(height: CosSpacing.xs)),
                 BlocListener<CarSearchCubit, CarSearchState>(
                   listener: (context, state) {
-                    if (state is CarSearchError) {
+                    if (state is CarSearchError && state.error is CarMaintenanceDelayException) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.error.message,
+                            style: const TextStyle(
+                              color: CosColors.text,
+                            ),
+                          ),
+                          backgroundColor: CosColors.error,
+                        ),
+                      );
+                    } else if (state is CarSearchError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -210,6 +220,9 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                               return Column(
                                 children: [
                                   ListTile(
+                                    onTap: () {
+                                      navigateTo(context, Routes.carInfo, arguments: car);
+                                    },
                                     title: Text('${car.make} ${car.model}'),
                                     subtitle: Text('Price: ${car.price.toDouble().toCurrency()}'),
                                     trailing: Text('ID: ${car.id.toString()}'),

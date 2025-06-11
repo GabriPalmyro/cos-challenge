@@ -11,8 +11,12 @@ class CarsSearchTimeoutException extends CarsErrors {
   String toString() => 'CarsSearchTimeoutException: $message';
 }
 
-class CarMaintenceDelayException extends CarsErrors {
-  CarMaintenceDelayException({super.message = 'The car search service is currently under maintenance. Please try again later'});
+class CarMaintenanceDelayException extends CarsErrors {
+  CarMaintenanceDelayException({
+    required this.delayInSeconds,
+  }) : super(message: 'The car search service is currently under maintenance. Please try again later in ${delayInSeconds ?? 0} seconds.');
+
+  final int? delayInSeconds;
 
   @override
   String toString() => 'CarMaintenceDelayException: $message';
