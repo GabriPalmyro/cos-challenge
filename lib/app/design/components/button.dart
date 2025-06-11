@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 enum CosButtonType {
   primary,
   secondary,
+  ghost,
 }
 
 enum CosButtonSize {
@@ -34,6 +35,8 @@ class CosButton extends StatelessWidget {
         return CosColors.primary;
       case CosButtonType.secondary:
         return CosColors.transparent;
+      case CosButtonType.ghost:
+        return CosColors.primary.withValues(alpha: .2);
     }
   }
 
@@ -43,6 +46,8 @@ class CosButton extends StatelessWidget {
         return CosColors.background;
       case CosButtonType.secondary:
         return CosColors.primary;
+      case CosButtonType.ghost:
+        return CosColors.background.withValues(alpha: .8);
     }
   }
 
@@ -58,47 +63,47 @@ class CosButton extends StatelessWidget {
   }
 
   Border? get _buttonBorder {
-    if (type == CosButtonType.primary) {
-      return null;
+    if (type == CosButtonType.secondary) {
+      return Border.all(
+        color: CosColors.primary,
+        width: CosBorder.width,
+      );
     }
 
-    return Border.all(
-      color: CosColors.primary,
-      width: CosBorder.width,
-    );
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
       height: _buttonHeight,
       width: double.infinity,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: _buttonColor,
-          borderRadius: BorderRadius.circular(CosBorder.radiusSmall),
-          border: _buttonBorder,
-        ),
-        child: GestureDetector(
-          onTap: onPressed,
-          behavior: HitTestBehavior.opaque,
-          child: Center(
-            child: isLoading
-                ? SizedBox.fromSize(
-                    size: Size.square(_buttonHeight * 0.4),
-                    child: CircularProgressIndicator(
-                      color: _textColor,
-                    ),
-                  )
-                : Text(
-                    label,
-                    style: TextStyle(
-                      color: _textColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: CosFonts.medium,
-                    ),
+      decoration: BoxDecoration(
+        color: _buttonColor,
+        borderRadius: BorderRadius.circular(CosBorder.radiusSmall),
+        border: _buttonBorder,
+      ),
+      child: GestureDetector(
+        onTap: onPressed,
+        behavior: HitTestBehavior.opaque,
+        child: Center(
+          child: isLoading
+              ? SizedBox.fromSize(
+                  size: Size.square(_buttonHeight * 0.4),
+                  child: CircularProgressIndicator(
+                    color: _textColor,
                   ),
-          ),
+                )
+              : Text(
+                  label,
+                  style: TextStyle(
+                    color: _textColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: CosFonts.medium,
+                  ),
+                ),
         ),
       ),
     );

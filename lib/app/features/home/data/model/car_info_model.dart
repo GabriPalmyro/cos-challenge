@@ -1,3 +1,4 @@
+import 'package:cos_challenge/app/core/errors/cars_errors.dart';
 import 'package:equatable/equatable.dart';
 
 class CarInfoModel extends Equatable {
@@ -20,26 +21,30 @@ class CarInfoModel extends Equatable {
     required this.estimationRequestId,
   });
   factory CarInfoModel.fromJson(Map<String, dynamic> json) {
-    return CarInfoModel(
-      id: json['id'],
-      feedback: json['feedback'],
-      valuatedAt: json['valuatedAt'],
-      requestedAt: json['requestedAt'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      make: json['make'],
-      model: json['model'],
-      externalId: json['externalId'],
-      sellerUser: json['_fk_sellerUser'],
-      price: json['price'],
-      positiveCustomerFeedback: json['positiveCustomerFeedback'],
-      uuidAuction: json['_fk_uuid_auction'],
-      inspectorRequestedAt: json['inspectorRequestedAt'],
-      origin: json['origin'],
-      estimationRequestId: json['estimationRequestId'],
-    );
+    try {
+      return CarInfoModel(
+        id: json['id'],
+        feedback: json['feedback'],
+        valuatedAt: json['valuatedAt'],
+        requestedAt: json['requestedAt'],
+        createdAt: json['createdAt'],
+        updatedAt: json['updatedAt'],
+        make: json['make'],
+        model: json['model'],
+        externalId: json['externalId'],
+        sellerUser: json['_fk_sellerUser'],
+        price: json['price'],
+        positiveCustomerFeedback: json['positiveCustomerFeedback'],
+        uuidAuction: json['_fk_uuid_auction'],
+        inspectorRequestedAt: json['inspectorRequestedAt'],
+        origin: json['origin'],
+        estimationRequestId: json['estimationRequestId'],
+      );
+    } catch (e) {
+      throw CarsDeserializationError();
+    }
   }
-  
+
   final int id;
   final String feedback;
   final String valuatedAt;
@@ -76,6 +81,47 @@ class CarInfoModel extends Equatable {
       'origin': origin,
       'estimationRequestId': estimationRequestId,
     };
+  }
+
+  CarInfoModel copyWith({
+    int? id,
+    String? feedback,
+    String? valuatedAt,
+    String? requestedAt,
+    String? createdAt,
+    String? updatedAt,
+    String? make,
+    String? model,
+    String? externalId,
+    String? sellerUser,
+    int? price,
+    bool? positiveCustomerFeedback,
+    String? uuidAuction,
+    String? inspectorRequestedAt,
+    String? origin,
+    String? estimationRequestId,
+  }) {
+    return CarInfoModel(
+      id: id ?? this.id,
+      feedback: feedback ?? this.feedback,
+      valuatedAt: valuatedAt ?? this.valuatedAt,
+      requestedAt: requestedAt ?? this.requestedAt,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      make: make ?? this.make,
+      model: model ?? this.model,
+      externalId: externalId ?? this.externalId,
+      sellerUser: sellerUser ?? this.sellerUser,
+      price: price ?? this.price,
+      positiveCustomerFeedback:
+          positiveCustomerFeedback ?? this.positiveCustomerFeedback,
+      uuidAuction: uuidAuction ?? this.uuidAuction,
+      inspectorRequestedAt:
+          inspectorRequestedAt ?? this.inspectorRequestedAt,
+      origin: origin ?? this.origin,
+      estimationRequestId:
+          estimationRequestId ?? this.estimationRequestId,
+    );
   }
 
   @override

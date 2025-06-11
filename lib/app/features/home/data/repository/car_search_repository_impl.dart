@@ -8,13 +8,18 @@ import 'package:cos_challenge/app/core/types/car_search_result.dart';
 import 'package:cos_challenge/app/features/home/data/model/car_info_model.dart';
 import 'package:cos_challenge/app/features/home/data/model/car_model.dart';
 import 'package:cos_challenge/app/features/home/domain/boundary/car_search_repository.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class CarSearchRepositoryImpl implements CarSearchRepository {
+  CarSearchRepositoryImpl({http.BaseClient? httpClient}) 
+      : _httpClient = httpClient ?? CosChallenge.httpClient;
+
+  final http.BaseClient _httpClient;
+
   @override
   Future<CarSearchResult> getCarByVin(String vin, String userEmail) async {
     try {
-      final response = await CosChallenge.httpClient.get(
+      final response = await _httpClient.get(
         Uri.https('anyUrl'),
         headers: {
           CosChallenge.user: userEmail,
@@ -43,7 +48,7 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
       }
     } on TimeoutException catch (_) {
       throw CarsSearchTimeoutException();
-    } on ClientException catch (_) {
+    } on http.ClientException catch (_) {
       throw CarsClientException();
     } on CarsErrors catch (_) {
       rethrow;

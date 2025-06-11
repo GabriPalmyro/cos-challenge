@@ -31,3 +31,10 @@ class CarsNotFoundError extends CarsErrors {
   @override
   String toString() => 'CarsNotFoundError: $message';
 }
+
+class CarsDeserializationError extends CarsErrors {
+  CarsDeserializationError({super.message = 'Error deserializing car data.'});
+
+  @override
+  String toString() => 'CarsDeserializationError: $message';
+}
