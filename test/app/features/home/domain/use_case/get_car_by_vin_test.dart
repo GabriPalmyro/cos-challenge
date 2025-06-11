@@ -49,7 +49,7 @@ void main() {
     mockMultipleResponses = jsonDecode(multipleOptionResponse).map<CarModel>((json) => CarModel.fromJson(json)).toList() as List<CarModel>;
   });
 
-  group('GetCarByVinUseCase', () {
+  group('GetCarByVinUseCase Test |', () {
     test('should return CarSearchSuccess and save to cache when search succeeds', () async {
       // Arrange
       final successResult = CarSearchSuccess(mockCarInfo);
