@@ -1,3 +1,4 @@
+import 'package:cos_challenge/app/core/utils/cos_strings.dart';
 import 'package:cos_challenge/app/design/design.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _AppWidgetState extends State<AppWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Car On Sale Challenge',
+      title: CosStrings.appName,
       themeMode: ThemeMode.dark,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
