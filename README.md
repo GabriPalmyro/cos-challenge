@@ -4,7 +4,7 @@ A Flutter application for searching and managing car information using VIN (Vehi
 
 ## 📱 Demo
 
-![App Demo](example/example.gif)
+<img src="example/example.gif" alt="App Demo" width="400">
 
 ## 🚗 Features
 
