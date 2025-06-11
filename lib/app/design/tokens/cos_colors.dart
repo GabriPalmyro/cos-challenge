@@ -6,5 +6,6 @@ class CosColors {
   static const Color error = Color(0xFFff4d4d);
   static const Color success = Color(0xFF4caf50);
   static const Color warning = Color(0xFFff9800);
+  static const Color text = Color(0xFFffffff);
   static const Color transparent = Colors.transparent;
 }

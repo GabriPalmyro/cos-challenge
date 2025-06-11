@@ -5,35 +5,35 @@ sealed class CarsErrors extends Failure {
 }
 
 class CarsSearchTimeoutException extends CarsErrors {
-  CarsSearchTimeoutException({super.message = 'Request timeout occurred.'});
+  CarsSearchTimeoutException({super.message = 'The car search request timed out. Please try again later'});
 
   @override
   String toString() => 'CarsSearchTimeoutException: $message';
 }
 
 class CarMaintenceDelayException extends CarsErrors {
-  CarMaintenceDelayException({super.message = 'Maintenance delay occurred.'});
+  CarMaintenceDelayException({super.message = 'The car search service is currently under maintenance. Please try again later'});
 
   @override
   String toString() => 'CarMaintenceDelayException: $message';
 }
 
 class CarsClientException extends CarsErrors {
-  CarsClientException({super.message = 'Client error occurred.'});
+  CarsClientException({super.message = 'Client error occurred while fetching car data.'});
 
   @override
   String toString() => 'CarsClientException: $message';
 }
 
 class CarsNotFoundError extends CarsErrors {
-  CarsNotFoundError({super.message = 'Car not found.'});
+  CarsNotFoundError({super.message = 'No car found with this VIN'});
 
   @override
   String toString() => 'CarsNotFoundError: $message';
 }
 
 class CarsDeserializationError extends CarsErrors {
-  CarsDeserializationError({super.message = 'Error deserializing car data.'});
+  CarsDeserializationError({super.message = 'There was an error deserializing the car data. Please try again later'});
 
   @override
   String toString() => 'CarsDeserializationError: $message';

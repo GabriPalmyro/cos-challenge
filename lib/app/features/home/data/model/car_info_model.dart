@@ -1,3 +1,4 @@
+import 'package:cos_challenge/app/common/local_database/adapters/car_info_box.dart';
 import 'package:cos_challenge/app/core/errors/cars_errors.dart';
 import 'package:equatable/equatable.dart';
 
@@ -45,6 +46,27 @@ class CarInfoModel extends Equatable {
     }
   }
 
+  factory CarInfoModel.fromBox(CarInfoBox box) {
+    return CarInfoModel(
+      id: box.id,
+      feedback: box.feedback,
+      valuatedAt: box.valuatedAt,
+      requestedAt: box.requestedAt,
+      createdAt: box.createdAt,
+      updatedAt: box.updatedAt,
+      make: box.make,
+      model: box.model,
+      externalId: box.externalId,
+      sellerUser: box.sellerUser,
+      price: box.price,
+      positiveCustomerFeedback: box.positiveCustomerFeedback,
+      uuidAuction: box.uuidAuction,
+      inspectorRequestedAt: box.inspectorRequestedAt,
+      origin: box.origin,
+      estimationRequestId: box.estimationRequestId,
+    );
+  }
+
   final int id;
   final String feedback;
   final String valuatedAt;
@@ -62,26 +84,27 @@ class CarInfoModel extends Equatable {
   final String origin;
   final String estimationRequestId;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'feedback': feedback,
-      'valuatedAt': valuatedAt,
-      'requestedAt': requestedAt,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'make': make,
-      'model': model,
-      'externalId': externalId,
-      '_fk_sellerUser': sellerUser,
-      'price': price,
-      'positiveCustomerFeedback': positiveCustomerFeedback,
-      '_fk_uuid_auction': uuidAuction,
-      'inspectorRequestedAt': inspectorRequestedAt,
-      'origin': origin,
-      'estimationRequestId': estimationRequestId,
-    };
+  CarInfoBox toBox() {
+    return CarInfoBox(
+      id: id,
+      feedback: feedback,
+      valuatedAt: valuatedAt,
+      requestedAt: requestedAt,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      make: make,
+      model: model,
+      externalId: externalId,
+      sellerUser: sellerUser,
+      price: price,
+      positiveCustomerFeedback: positiveCustomerFeedback,
+      uuidAuction: uuidAuction,
+      inspectorRequestedAt: inspectorRequestedAt,
+      origin: origin,
+      estimationRequestId: estimationRequestId,
+    );
   }
+  
 
   CarInfoModel copyWith({
     int? id,

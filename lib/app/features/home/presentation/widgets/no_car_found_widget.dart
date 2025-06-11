@@ -20,7 +20,7 @@ class NoCarFoundWidget extends StatelessWidget {
             ),
             SizedBox(height: CosSpacing.sm),
             Text(
-              'No car found with the provided VIN.',
+              'No search results found',
             ),
           ],
         ),

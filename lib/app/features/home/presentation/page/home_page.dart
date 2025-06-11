@@ -1,10 +1,13 @@
 import 'package:cos_challenge/app/common/client/cos_client.dart';
 import 'package:cos_challenge/app/common/router/router.dart';
+import 'package:cos_challenge/app/core/extensions/price_extension.dart';
 import 'package:cos_challenge/app/design/design.dart';
+import 'package:cos_challenge/app/features/home/data/model/car_info_model.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/car_search_cubit.dart';
 import 'package:cos_challenge/app/features/home/presentation/cubit/user_info_cubit.dart';
 import 'package:cos_challenge/app/features/home/presentation/widgets/car_loading_widget.dart';
 import 'package:cos_challenge/app/features/home/presentation/widgets/no_car_found_widget.dart';
+import 'package:cos_challenge/app/features/home/presentation/widgets/similar_cars_by_vin_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -151,12 +154,26 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                     if (state is CarSearchError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(state.error.message),
+                          content: Text(
+                            state.error.message,
+                            style: const TextStyle(
+                              color: CosColors.text,
+                            ),
+                          ),
                           backgroundColor: CosColors.error,
                         ),
                       );
                     } else if (state is CarSearchLoaded) {
                       navigateTo(context, Routes.carInfo, arguments: state.carInfo);
+                    } else if (state is MultipleCarSearchLoaded) {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: CosColors.background,
+                        isScrollControlled: true,
+                        builder: (context) => SimilarCarsByVinModal(
+                          similarCars: state.carInfoList,
+                        ),
+                      );
                     }
                   },
                   child: BlocBuilder<CarSearchCubit, CarSearchState>(
@@ -165,36 +182,33 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                         return const SliverToBoxAdapter(
                           child: CarSearchLoadingWidget(),
                         );
-                      } else if (state is CarSearchError) {
-                        return SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.all(CosSpacing.md),
-                            child: Text(
-                              state.error.message,
-                              style: const TextStyle(
-                                color: CosColors.error,
-                              ),
+                      }
+                      if (state is CarSearchError || state is CarSearchInitial || state is MultipleCarSearchLoaded) {
+                        final List<CarInfoModel> carList = state is CarSearchError
+                            ? state.cachedResults
+                            : state is CarSearchInitial
+                                ? state.lastSearchResults
+                                : (state as MultipleCarSearchLoaded).lastSearchResults;
+
+                        if (carList.isEmpty) {
+                          return const SliverToBoxAdapter(
+                            child: Padding(
+                              padding: EdgeInsets.all(CosSpacing.md),
+                              child: NoCarFoundWidget(),
                             ),
-                          ),
-                        );
-                      } else if (state is MultipleCarSearchLoaded) {
+                          );
+                        }
+
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              final car = state.carInfoList[index];
+                              final car = carList[index];
                               return ListTile(
                                 title: Text('${car.make} ${car.model}'),
-                                subtitle: Text('Similarity: ${car.similarity.toStringAsFixed(2)}%'),
-                                trailing: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.chevron_right,
-                                    color: CosColors.primary,
-                                  ),
-                                ),
+                                subtitle: Text('Price: ${car.price.toDouble().toCurrency()}'),
                               );
                             },
-                            childCount: state.carInfoList.length,
+                            childCount: carList.length,
                           ),
                         );
                       } else {

@@ -8,10 +8,11 @@ sealed class CarSearchState extends Equatable {
 }
 
 final class CarSearchInitial extends CarSearchState {
-  const CarSearchInitial();
+  const CarSearchInitial({this.lastSearchResults = const []});
+  final List<CarInfoModel> lastSearchResults;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [lastSearchResults];
 }
 
 final class CarSearchLoading extends CarSearchState {
@@ -30,17 +31,19 @@ final class CarSearchLoaded extends CarSearchState {
 }
 
 final class MultipleCarSearchLoaded extends CarSearchState {
-  const MultipleCarSearchLoaded(this.carInfoList);
+  const MultipleCarSearchLoaded(this.carInfoList, this.lastSearchResults);
   final List<CarModel> carInfoList;
+  final List<CarInfoModel> lastSearchResults;
 
   @override
-  List<Object> get props => [carInfoList];
+  List<Object> get props => [carInfoList, lastSearchResults];
 }
 
 final class CarSearchError extends CarSearchState {
-  const CarSearchError(this.error);
+  const CarSearchError(this.error, {this.cachedResults = const []});
   final CarsErrors error;
+  final List<CarInfoModel> cachedResults;
 
   @override
-  List<Object> get props => [error];
+  List<Object> get props => [error, cachedResults];
 }

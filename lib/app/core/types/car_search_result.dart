@@ -10,11 +10,14 @@ class CarSearchSuccess implements CarSearchResult {
 }
 
 class CarMultipleChoices implements CarSearchResult {
-  CarMultipleChoices(this.carsList);
+  CarMultipleChoices(this.carsList, {this.lastSearchResults = const []});
   final List<CarModel> carsList;
+  final List<CarInfoModel> lastSearchResults;
 }
 
 class CarSearchFailure implements CarSearchResult {
-  CarSearchFailure(this.error);
+  CarSearchFailure(this.error, {this.cachedResults = const []});
+
+  final List<CarInfoModel> cachedResults;
   final CarsErrors error;
 }

@@ -22,32 +22,23 @@ class CarSearchCubit extends Cubit<CarSearchState> {
     try {
       emit(const CarSearchLoading());
       final result = await _getCarByVinUseCase.call(vin);
+
       if (result is CarSearchSuccess) {
         emit(CarSearchLoaded(result.carInfo));
       } else if (result is CarMultipleChoices) {
-        emit(MultipleCarSearchLoaded(result.carsList));
+        emit(MultipleCarSearchLoaded(result.carsList, result.lastSearchResults));
       } else if (result is CarSearchFailure) {
-        emit(CarSearchError(result.error));
+        emit(CarSearchError(result.error, cachedResults: result.cachedResults));
       } else {
         emit(CarSearchError(CarsNotFoundError()));
       }
-    } on CarsErrors catch (e) {
-      emit(CarSearchError(e));
     } catch (e) {
       emit(CarSearchError(CarsNotFoundError()));
     }
   }
 
   Future<void> loadCachedCars() async {
-    try {
-      final cachedCars = await _getCachedCarsUseCase.call();
-      if (cachedCars.isNotEmpty) {
-        emit(MultipleCarSearchLoaded(cachedCars));
-      } else {
-        emit(const CarSearchInitial());
-      }
-    } catch (e) {
-      emit(const CarSearchInitial());
-    }
+    final cachedCars = await _getCachedCarsUseCase.call();
+    emit(CarSearchInitial(lastSearchResults: cachedCars));
   }
 }

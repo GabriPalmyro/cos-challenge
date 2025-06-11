@@ -17,28 +17,61 @@ class CarInfoBoxAdapter extends TypeAdapter<CarInfoBox> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CarInfoBox(
-      make: fields[0] as String,
-      model: fields[1] as String,
-      containerName: fields[2] as String,
-      similarity: fields[3] as int,
-      externalId: fields[4] as String,
+      id: fields[0] as int,
+      feedback: fields[1] as String,
+      valuatedAt: fields[2] as String,
+      requestedAt: fields[3] as String,
+      createdAt: fields[4] as String,
+      updatedAt: fields[5] as String,
+      make: fields[6] as String,
+      model: fields[7] as String,
+      externalId: fields[8] as String,
+      sellerUser: fields[9] as String,
+      price: fields[10] as int,
+      positiveCustomerFeedback: fields[11] as bool,
+      uuidAuction: fields[12] as String,
+      inspectorRequestedAt: fields[13] as String,
+      origin: fields[14] as String,
+      estimationRequestId: fields[15] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CarInfoBox obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(16)
       ..writeByte(0)
-      ..write(obj.make)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.model)
+      ..write(obj.feedback)
       ..writeByte(2)
-      ..write(obj.containerName)
+      ..write(obj.valuatedAt)
       ..writeByte(3)
-      ..write(obj.similarity)
+      ..write(obj.requestedAt)
       ..writeByte(4)
-      ..write(obj.externalId);
+      ..write(obj.createdAt)
+      ..writeByte(5)
+      ..write(obj.updatedAt)
+      ..writeByte(6)
+      ..write(obj.make)
+      ..writeByte(7)
+      ..write(obj.model)
+      ..writeByte(8)
+      ..write(obj.externalId)
+      ..writeByte(9)
+      ..write(obj.sellerUser)
+      ..writeByte(10)
+      ..write(obj.price)
+      ..writeByte(11)
+      ..write(obj.positiveCustomerFeedback)
+      ..writeByte(12)
+      ..write(obj.uuidAuction)
+      ..writeByte(13)
+      ..write(obj.inspectorRequestedAt)
+      ..writeByte(14)
+      ..write(obj.origin)
+      ..writeByte(15)
+      ..write(obj.estimationRequestId);
   }
 
   @override

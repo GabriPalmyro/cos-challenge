@@ -1,4 +1,3 @@
-import 'package:cos_challenge/app/common/local_database/adapters/car_info_box.dart';
 import 'package:cos_challenge/app/core/errors/cars_errors.dart';
 import 'package:equatable/equatable.dart';
 
@@ -25,25 +24,25 @@ class CarModel extends Equatable {
     }
   }
 
-  factory CarModel.fromBox(CarInfoBox box) {
-    return CarModel(
-      make: box.make,
-      model: box.model,
-      containerName: box.containerName,
-      similarity: box.similarity,
-      externalId: box.externalId,
-    );
-  }
+  // factory CarModel.fromBox(CarInfoBox box) {
+  //   return CarModel(
+  //     make: box.make,
+  //     model: box.model,
+  //     containerName: box.containerName,
+  //     similarity: box.similarity,
+  //     externalId: box.externalId,
+  //   );
+  // }
 
-  CarInfoBox toBox() {
-    return CarInfoBox(
-      make: make,
-      model: model,
-      containerName: containerName,
-      similarity: similarity,
-      externalId: externalId,
-    );
-  }
+  // CarInfoBox toBox() {
+  //   return CarInfoBox(
+  //     make: make,
+  //     model: model,
+  //     containerName: containerName,
+  //     similarity: similarity,
+  //     externalId: externalId,
+  //   );
+  // }
 
   Map<String, dynamic> toJson() {
     return {

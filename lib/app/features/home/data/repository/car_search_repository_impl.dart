@@ -11,8 +11,7 @@ import 'package:cos_challenge/app/features/home/domain/boundary/car_search_repos
 import 'package:http/http.dart' as http;
 
 class CarSearchRepositoryImpl implements CarSearchRepository {
-  CarSearchRepositoryImpl({http.BaseClient? httpClient}) 
-      : _httpClient = httpClient ?? CosChallenge.httpClient;
+  CarSearchRepositoryImpl({http.BaseClient? httpClient}) : _httpClient = httpClient ?? CosChallenge.httpClient;
 
   final http.BaseClient _httpClient;
 
@@ -27,15 +26,23 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final json = jsonDecode(response.body);
-        return CarSearchSuccess(CarInfoModel.fromJson(json));
+        try {
+          final json = jsonDecode(response.body);
+          return CarSearchSuccess(CarInfoModel.fromJson(json));
+        } catch (_) {
+          throw CarsDeserializationError();
+        }
       } else if (response.statusCode == HttpStatus.multipleChoices) {
-        final jsonList = jsonDecode(response.body) as List;
-        final cars = jsonList.map((e) => CarModel.fromJson(e)).toList()
-          ..sort(
-            (a, b) => b.similarity.compareTo(a.similarity),
-          );
-        return CarMultipleChoices(cars);
+        try {
+          final jsonList = jsonDecode(response.body) as List;
+          final cars = jsonList.map((e) => CarModel.fromJson(e)).toList()
+            ..sort(
+              (a, b) => b.similarity.compareTo(a.similarity),
+            );
+          return CarMultipleChoices(cars);
+        } catch (_) {
+          throw CarsDeserializationError();
+        }
       } else if (response.statusCode == HttpStatus.badRequest) {
         throw CarMaintenceDelayException();
       } else {
