@@ -67,8 +67,8 @@ lib/
 
 ### Core Dependencies
 
-- **Flutter SDK**: `^3.6.0`
-- **Dart**: `^3.6.0`
+- **Flutter SDK**: `3.27.1`
+- **Dart**: `3.6.0`
 
 ### State Management
 
@@ -107,8 +107,8 @@ lib/
 
 ### Prerequisites
 
-- Flutter SDK `^3.6.0`
-- Dart SDK `^3.6.0`
+- Flutter SDK `3.27.1`
+- Dart SDK `3.6.0`
 - Android Studio / VS Code
 - iOS Simulator / Android Emulator
 
