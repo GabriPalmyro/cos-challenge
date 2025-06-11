@@ -220,6 +220,12 @@ Hive is configured for local storage with type adapters for:
 
 ## 📦 Build and Deployment
 
+### 1. `build-apk.yml` - Simple APK Build
+
+- **Triggers**: Push/PR to main branch, manual dispatch
+- **Purpose**: Basic APK build with tests
+- **Outputs**: Single release APK
+
 ### Android
 
 ```bash
@@ -245,41 +251,3 @@ flutter build ios --release
 ```bash
 flutter build web
 ```
-
-## 🤝 Contributing
-
-1. Fork the project
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Code Style
-
-- Follow Dart/Flutter conventions
-- Use meaningful variable and function names
-- Write comprehensive tests for new features
-- Update documentation as needed
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Flutter team for the amazing framework
-- BLoC library contributors
-- Hive database maintainers
-- The Flutter community for inspiration and support
-
-## 📞 Support
-
-For questions and support:
-
-- Create an issue in the repository
-- Check the Flutter documentation
-- Refer to the BLoC library documentation
-
----
-
-**Happy Coding! 🚗💨**
