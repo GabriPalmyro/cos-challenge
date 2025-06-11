@@ -28,7 +28,7 @@ class CarSearchRepositoryImpl implements CarSearchRepository {
         final jsonList = jsonDecode(response.body) as List;
         final cars = jsonList.map((e) => CarModel.fromJson(e)).toList()
           ..sort(
-            (a, b) => a.similarity.compareTo(b.similarity),
+            (a, b) => b.similarity.compareTo(a.similarity),
           );
         return CarMultipleChoices(cars);
       } else if (response.statusCode == HttpStatus.badRequest) {

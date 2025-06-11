@@ -1,3 +1,4 @@
+import 'package:cos_challenge/app/core/extensions/price_extension.dart';
 import 'package:cos_challenge/app/design/design.dart';
 import 'package:cos_challenge/app/features/home/data/model/car_info_model.dart';
 import 'package:flutter/material.dart';
@@ -19,18 +20,19 @@ class CarInfoPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: CosSpacing.lg),
             Text(
               '${carInfo.make} ${carInfo.model}',
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: CosFonts.extraLarge,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: CosSpacing.sm),
             Text(
-              '${carInfo.price} USD',
+              carInfo.price.toDouble().toCurrency(),
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: CosFonts.large,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -40,15 +42,15 @@ class CarInfoPage extends StatelessWidget {
                   ? 'Positive Customer Feedback'
                   : 'Negative Customer Feedback',
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: CosFonts.medium,
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(height: CosSpacing.md),
+            const SizedBox(height: CosSpacing.xs),
             Text(
               'Origin: ${carInfo.origin}',
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: CosFonts.medium,
                 fontWeight: FontWeight.w400,
               ),
             ),

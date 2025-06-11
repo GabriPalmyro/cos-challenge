@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> with NavigationDelegate {
                           final car = state.carInfoList[index];
                           return ListTile(
                             title: Text('${car.make} ${car.model}'),
-                            subtitle: Text('VIN: ${car.externalId}'),
+                            subtitle: Text('Similarity: ${car.similarity.toStringAsFixed(2)}%'),
                             trailing: IconButton(
                               onPressed: () {},
                               icon: const Icon(

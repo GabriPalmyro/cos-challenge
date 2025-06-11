@@ -42,6 +42,7 @@ class GetCarByVinUseCaseImpl implements GetCarByVinUseCase {
 
       return result;
     } catch (e) {
+      print('Error fetching car by VIN: $e');
       final cacheList = await _carDataSource.getCacheOnCache();
       if (cacheList.isNotEmpty) {
         return CarMultipleChoices(cacheList);
