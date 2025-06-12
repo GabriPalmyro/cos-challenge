@@ -127,13 +127,7 @@ lib/
    flutter pub get
    ```
 
-3. **Generate code**
-
-   ```bash
-   flutter packages pub run build_runner build
-   ```
-
-4. **Run the app**
+3. **Run the app**
 
    ```bash
    flutter run
@@ -144,16 +138,6 @@ lib/
 1. **Configure your IDE**
    - Install Flutter and Dart plugins
    - Configure code formatting and linting
-
-2. **Generate necessary files**
-
-   ```bash
-   # Generate dependency injection
-   flutter packages pub run build_runner build --delete-conflicting-outputs
-   
-   # Watch for changes during development
-   flutter packages pub run build_runner watch
-   ```
 
 ## 📱 Usage
 
