@@ -11,7 +11,7 @@ class EmailValidator {
       return 'Email cannot be empty';
     }
     if (!EmailRegEx.email.hasMatch(value)) {
-      return 'Invalid email format';
+      return 'Please enter a valid email';
     }
     return null;
   }
