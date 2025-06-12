@@ -27,21 +27,21 @@ void main() {
       });
 
       test('should return error message for whitespace only input', () {
-        expect(EmailValidator.validate('   '), equals('Invalid email format'));
+        expect(EmailValidator.validate('   '), equals('Please enter a valid email'));
       });
 
-      test('should return error message for invalid email formats', () {
+      test('should return error message for Please enter a valid emails', () {
         // Missing @ symbol
-        expect(EmailValidator.validate('testexample.com'), equals('Invalid email format'));
+        expect(EmailValidator.validate('testexample.com'), equals('Please enter a valid email'));
         
         // Missing domain
-        expect(EmailValidator.validate('test@'), equals('Invalid email format'));
+        expect(EmailValidator.validate('test@'), equals('Please enter a valid email'));
         
         // Missing username
-        expect(EmailValidator.validate('@example.com'), equals('Invalid email format'));
+        expect(EmailValidator.validate('@example.com'), equals('Please enter a valid email'));
         
         // Missing top-level domain
-        expect(EmailValidator.validate('test@example'), equals('Invalid email format'));
+        expect(EmailValidator.validate('test@example'), equals('Please enter a valid email'));
       });
 
       test('should return error message for edge cases', () {
