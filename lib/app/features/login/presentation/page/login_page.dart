@@ -103,7 +103,10 @@ class _LoginPageState extends State<LoginPage> with NavigationStateDelegate {
                     replaceWith(context, Routes.home);
                   } else if (state is LoginFailure) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.error.message)),
+                      SnackBar(
+                        content: Text(state.error.message),
+                        backgroundColor: CosColors.error,
+                      ),
                     );
                   }
                 },
