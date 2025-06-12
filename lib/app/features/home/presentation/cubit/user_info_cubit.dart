@@ -25,7 +25,7 @@ class UserInfoCubit extends Cubit<UserInfoState> {
 
   Future<void> logout() async {
     final user = await _getUserUseCase.call();
-
+    
     try {
       await _logoutUserUseCase.call();
       emit(UserLogout(user));
