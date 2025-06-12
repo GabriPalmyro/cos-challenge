@@ -166,6 +166,12 @@ The app handles various scenarios:
 
 ## 🧪 Testing
 
+### 📊 Code Coverage
+
+<img src="example/coverage.png" alt="Code Coverage - Over 60%" width="400">
+
+*Comprehensive test coverage ensuring code quality and reliability*
+
 ### Running Tests
 
 ```bash
